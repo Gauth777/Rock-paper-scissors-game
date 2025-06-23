@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rock Paper Scissors</title>
+  <style>
+    body {
+      background-color: #121212;
+      color: #ffffff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #00ffd5;
+    }
+
+    .choices {
+      margin: 2rem 0;
+    }
+
+    .choices img {
+      width: 100px;
+      margin: 0 15px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .choices img:hover {
+      transform: scale(1.1);
+    }
+
+    .scoreboard {
+      margin-top: 2rem;
+      font-size: 1.2rem;
+      background: #1f1f1f;
+      padding: 1rem;
+      border-radius: 10px;
+      display: inline-block;
+    }
+
+    .reset-btn {
+      margin-top: 1.5rem;
+      background: #ff5252;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .reset-btn:hover {
+      background: #ff7979;
+    }
+  </style>
+</head>
+<body>
+  <h1>Rock Paper Scissors</h1>
+
+  <div class="choices">
+    <img src="https://img.icons8.com/color/100/rock.png" alt="Rock" onclick="playGame('Rock')">
+    <img src="https://img.icons8.com/color/100/paper.png" alt="Paper" onclick="playGame('Paper')">
+    <img src="https://img.icons8.com/color/100/scissors.png" alt="Scissors" onclick="playGame('Scissors')">
+  </div>
+
+  <p id="result" style="font-size: 1.5rem;"></p>
+  <div class="scoreboard">
+    <p><strong>Wins:</strong> <span id="wins">0</span></p>
+    <p><strong>Losses:</strong> <span id="losses">0</span></p>
+    <p><strong>Ties:</strong> <span id="ties">0</span></p>
+  </div>
+
+  <br />
+  <button class="reset-btn" onclick="resetScore()">Reset Game</button>
+
+  <script>
+    let score = JSON.parse(localStorage.getItem('score')) || {
+      wins: 0,
+      losses: 0,
+      ties: 0
+    };
+
+    updateScoreboard();
+
+    function playGame(playerMove) {
+      const computerMove = pickComputerMove();
+      let result = '';
+
+      if (playerMove === computerMove) {
+        result = 'It\'s a Tie!';
+        score.ties++;
+      } else if (
+        (playerMove === 'Rock' && computerMove === 'Scissors') ||
+        (playerMove === 'Paper' && computerMove === 'Rock') ||
+        (playerMove === 'Scissors' && computerMove === 'Paper')
+      ) {
+        result = 'You Win!';
+        score.wins++;
+      } else {
+        result = 'You Lose!';
+        score.losses++;
+      }
+
+      localStorage.setItem('score', JSON.stringify(score));
+      document.getElementById('result').textContent = `You chose ${playerMove}, computer chose ${computerMove}. ${result}`;
+      updateScoreboard();
+    }
+
+    function pickComputerMove() {
+      const moves = ['Rock', 'Paper', 'Scissors'];
+      const randomIndex = Math.floor(Math.random() * 3);
+      return moves[randomIndex];
+    }
+
+    function updateScoreboard() {
+      document.getElementById('wins').textContent = score.wins;
+      document.getElementById('losses').textContent = score.losses;
+      document.getElementById('ties').textContent = score.ties;
+    }
+
+    function resetScore() {
+      score = { wins: 0, losses: 0, ties: 0 };
+      localStorage.removeItem('score');
+      updateScoreboard();
+      document.getElementById('result').textContent = '';
+    }
+  </script>
+</body>
+</html>
