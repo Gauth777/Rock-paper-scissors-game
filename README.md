@@ -15,7 +15,7 @@ A simple yet fun Rock Paper Scissors game built using HTML, CSS and Vanilla Java
 - Persistent storage with `localStorage`
 
 ## 🚀 Live Demo:
-👉 [Play Here](https://your-vercel-link.vercel.app/) 
+👉 [Play Here]([(https://gauth777.github.io/Rock-paper-scissors-game/) 
 
 ## 👨‍💻 Author:
 **[Naman](https://github.com/Gauth777)**
