@@ -6,6 +6,26 @@ let score = JSON.parse(localStorage.getItem('score')) || {
 
 updateScoreboard();
 
+let isAutoPlaying = false;
+let intervalId;
+
+function autoPlay() {
+  const autoPlayBtn = document.querySelector('.auto-play-button');
+  if (!isAutoPlaying) {
+    intervalId = setInterval(function () {
+      const playerMove = pickComputerMove();
+      playGame(playerMove);
+    }, 1000);
+    isAutoPlaying = true;
+    autoPlayBtn.innerHTML = 'Stop';
+  } else {
+    clearInterval(intervalId);
+    isAutoPlaying = false;
+    autoPlayBtn.innerHTML = 'Auto Play'
+  }
+}
+
+
 function playGame(playerMove) {
   const computerMove = pickComputerMove();
   let result = '';
